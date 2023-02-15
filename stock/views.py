@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
 from django.http import HttpResponse
 from .models import Stock
-
+from .form import SearchForm
+#from haystack.query import SearchQuerySet
 
 class StockView(ListView):
     model = Stock
@@ -12,4 +13,21 @@ class StockView(ListView):
 def mainOfStock(request):
     return render(request,'registration/login.html')
 
+def addToStock(request):
+    return render(request,'stock/add_in_stock.html')
 
+# def post_search(request):
+#     form = SearchForm()
+#     if 'query' in request.GET:
+#         form = SearchForm(request.GET)
+#         if form.is_valid():
+#             cd = form.cleaned_data
+#             results = SearchQuerySet().models(Stock).filter(content=cd['query']).load_all()
+#             # count total results
+#             total_results = results.count()
+#     return render(request,
+#                   'stock/search.html',
+#                   {'form': form,
+#                    'cd': cd,
+#                    'results': results,
+#                    'total_results': total_results})

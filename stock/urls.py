@@ -6,7 +6,9 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.mainOfStock, name='Main of Stock'),
+    path('', views.mainOfStock, name='Main-of-Stock'),
+   # path('search', views.post_search, name='stock-search'),
+    path('add', views.addToStock, name='add-to-stock'),
     path('stock', StockView.as_view(template_name='index.html'), name='stock-home'),
     path('accounts/', include('django.contrib.auth.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
