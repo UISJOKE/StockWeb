@@ -1,0 +1,37 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/iksweb.css' %}">
+</head>
+<body>
+
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Article</th>
+        <th>Name</th>
+        <th>Miniature</th>
+        <th>Description</th>
+        <th>Country</th>
+        <th>Net Weight</th>
+        <th>Gross Weight</th>
+        <th>Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for stocks in stock %}
+    <tr>
+        <td>{{ stocks.id }}</td>
+        <td>{{ stocks.article }}</td>
+        <td>{{ stocks.name }}</td>
+        <td><img src = '{{ stocks.photo.url }}'></td>
+        <td>{{ stocks.description }}</td>
+        <td>{{ stocks.country }}</td>
+        <td>{{ stocks.net_weight }}</td>
+        <td>{{ stocks.gross_weight }}</td>
+        <td>{{ stocks.price }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
