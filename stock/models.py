@@ -15,7 +15,7 @@ class Stock(models.Model):
     price = models.FloatField()
 
     def save(self):
-        super().save()
+        super().save
         img = Image.open(self.photo.path)
 
         output_size = (200, 200)
