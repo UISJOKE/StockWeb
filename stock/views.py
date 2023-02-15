@@ -1,10 +1,10 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
 from django.http import HttpResponse
 from .models import Stock
 from .form import SearchForm
 #from haystack.query import SearchQuerySet
-
 class StockView(ListView):
     model = Stock
     template_name = 'index.html'
@@ -12,7 +12,7 @@ class StockView(ListView):
 
 def mainOfStock(request):
     return render(request,'registration/login.html')
-
+@login_required
 def addToStock(request):
     return render(request,'stock/add_in_stock.html')
 
