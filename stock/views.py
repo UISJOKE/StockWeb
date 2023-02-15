@@ -11,7 +11,10 @@ class StockView(ListView):
     context_object_name = 'stock'
 
 def mainOfStock(request):
-    return render(request,'registration/login.html')
+    if not request.user.is_authenticated:
+        return render(request,'registration/login.html')
+    else:
+        return redirect('stock-home')
 @login_required
 def addToStock(request):
     return render(request,'stock/add_in_stock.html')
