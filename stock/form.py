@@ -10,7 +10,7 @@ class StockForm(forms.ModelForm):
     class Meta:
         model = Stock
         fields = ["article", "name","photo", "description", "country", "net_weight", "gross_weight", "price"]
-        article = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Name', 'style': 'width: 300px;', 'class': 'form-control'}))
 
-
-
+        widgets = {
+            'description': Textarea(attrs={'class': 'my-litte-class'}),
+        }
