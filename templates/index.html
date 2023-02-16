@@ -1,8 +1,36 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/iksweb.css' %}">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
-<p><a href="{% url 'add-to-stock' %}">Add item</a></p>
+<form action={% url "create_stock" %} method='POST'>
+    {% csrf_token %}
+    <button>Add Item</button>
+</form>
+<p>Welcome, {{ user.get_username }}. Thanks for logging in.</p>
+<form action={% url "logout" %} method='POST'>
+    {% csrf_token %}
+    <button>LogOut</button>
+</form>
+<form action="{% url 'search' %}" class="form-inline" method="get">
+
+<div class="form-group mb-8">
+
+
+</div>
+
+<div class="form-group mx-sm-3 mb-2">
+
+<label for="" class="sr-only">search</label>
+
+<input name="search" type="" class="form-control" id="" placeholder="Name or Article">
+
+</div>
+
+<button type="submit" >Search</button>
+
+</form>
 <table>
     <thead>
     <tr>
@@ -23,7 +51,7 @@
         <td>{{ stocks.id }}</td>
         <td>{{ stocks.article }}</td>
         <td>{{ stocks.name }}</td>
-        <td><img src = '{{ stocks.photo.url }}'></td>
+        <td><img src = '{{ stocks.photo }}'></td>
         <td>{{ stocks.description }}</td>
         <td>{{ stocks.country }}</td>
         <td>{{ stocks.net_weight }}</td>

@@ -1,22 +1,66 @@
-{% block title %}Search{% endblock %}
-{% block content %}
-    {% if "query" in request.GET %}
-        <h1>Posts containing "{{ cd.query }}"</h1>
-        <h3>Found {{ total_results }} result{{ total_results|pluralize }}</h3>
-        {% for result in results %}
-            {% with post=result.object %}
-                <h4><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h4>
-                {{ post.body|truncatewords:5 }}
-            {% endwith %}
-            {% empty %}
-            <p>There are no results for your query.</p>
-        {% endfor %}
-        <p><a href="{% url " blog:post_search" %}">Search again</a></p>
-    {% else %}
-        <h1>Search for posts</h1>
-        <form action="." method="get">
-            {{ form.as_p }}
-            <input type="submit" value="Search">
-        </form>
-    {% endif %}
-{% endblock %}
+<html>
+
+<head>
+{% load static %}
+<title>Search Result</title>
+<link rel="stylesheet" href="{% static 'css/iksweb.css' %}">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+
+
+
+<h2>
+
+{% with results.count as total_results %}
+
+Found {{ total_results }} result{{ total_results|pluralize }}
+
+{% endwith %}
+
+</h2>
+
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Article</th>
+        <th>Name</th>
+        <th>Miniature</th>
+        <th>Description</th>
+        <th>Country</th>
+        <th>Net Weight</th>
+        <th>Gross Weight</th>
+        <th>Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for c in results %}
+    <tr>
+        <td>{{ c.id }}</td>
+        <td>{{ c.article }}</td>
+        <td>{{ c.name }}</td>
+        <td><img src = '{{ c.photo }}'></td>
+        <td>{{ c.description }}</td>
+        <td>{{ c.country }}</td>
+        <td>{{ c.net_weight }}</td>
+        <td>{{ c.gross_weight }}</td>
+        <td>{{ c.price }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<form action="{% url 'stock-home' %}" class="form-inline" method="get">
+
+<button type="submit" class="btn btn-primary btn-lg mb-2">Назад</button>
+
+</form>
+
+</body>
+
+<html>
