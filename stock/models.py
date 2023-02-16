@@ -1,7 +1,6 @@
 from django.db import models
 from PIL import Image
 
-from django.utils.safestring import mark_safe
 
 class Stock(models.Model):
     id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
@@ -22,4 +21,3 @@ class Stock(models.Model):
         img.thumbnail(output_size)
         name = self.photo.name
         img.save(name)
-
