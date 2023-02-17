@@ -1,11 +1,13 @@
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.views.generic.list import ListView
 from django.http import HttpResponseRedirect
 from .models import Stock
-from .form import StockForm
+from .form import StockForm, UserRegisterForm
 
 
 class StockView(ListView):
@@ -67,3 +69,32 @@ def search(request):
 
 
         return render(request, 'stock/search.html', {'query': query, 'results': results})
+
+def delete(request):
+    if request.method == "GET":
+        itemId = request.GET.get('id')
+
+        if itemId == '':
+            itemId = 'None'
+
+        item = get_object_or_404(Stock, id=itemId)
+        item.delete()
+        return HttpResponseRedirect("/")
+
+    return render(request, 'index.html')
+
+def register(request):
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Создан аккаунт {username}!')
+            return redirect('stock-home')
+    else:
+        form = UserRegisterForm()
+    return render(request, 'registration/register.html', {'form': form})
+
+@login_required
+def profile(request):
+    return render(request, 'registration/profile.html')

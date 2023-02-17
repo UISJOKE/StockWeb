@@ -1,9 +1,9 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
+from .models import Stock,Profile
 
-from .models import Stock
 
-
+admin.site.register(Profile)
 
 @admin.register(Stock)
 class StockAdmin(admin.ModelAdmin):

@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-ms0)&$pg^vk++7hnuo*pee@-euizhb4u7x^m$ptvw1xfll)@3b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['uisjoke.pythonanywhere.com', '127.0.0.1']
 
 
 # Application definition
@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'stock.apps.StockConfig',
+    'crispy_forms',
+    'crispy_bootstrap5',
 
 ]
 
@@ -120,19 +122,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-MEDIA_URL = ''
-MEDIA_ROOT = os.path.join(BASE_DIR, '')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_URL = 'StockWeb/stock/pictures/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'stock/pictures/')
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+LOGIN_REDIRECT_URL = 'stock-home'
+LOGIN_URL = 'login'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-LOGIN_REDIRECT_URL = '/stock'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'StockWeb23@gmail.com'
-DEFAULT_FROM_EMAIL = 'StockWeb23@gmail.com'
-EMAIL_HOST_PASSWORD = 'csgoak47'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
 

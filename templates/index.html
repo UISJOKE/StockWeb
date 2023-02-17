@@ -30,6 +30,11 @@
 <button type="submit" >Search</button>
 
 </form>
+<form action="{% url 'del' %}" class="form-inline" method="GET">
+    {% csrf_token %}
+    <input name="id" type="number" class="form-control" id="" placeholder="ID">
+    <input type="submit" value="Delete Item" />
+</form>
 <table>
     <thead>
     <tr>
@@ -50,7 +55,7 @@
         <td>{{ stocks.id }}</td>
         <td>{{ stocks.article }}</td>
         <td>{{ stocks.name }}</td>
-        <td><img src = '{{ stocks.photo }}' alt=""></td>
+        <td><img width="150" height="100" src = '{{ stocks.photo.url }}' alt=""></td>
         <td>{{ stocks.description }}</td>
         <td>{{ stocks.country }}</td>
         <td>{{ stocks.net_weight }}</td>
