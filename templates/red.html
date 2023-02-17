@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/iksweb.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>Main</title>
+</head>
+<body>
+<div class="topnav">
+    <form action={% url "create_stock" %} method='POST'>
+        {% csrf_token %}
+        <button>Add Item</button>
+    </form>
+    <form action="{% url 'del' %}" method="GET">
+        {% csrf_token %}
+        <input name="id" type="number"  id="" placeholder="ID">
+        <input type="submit" value="Delete Item" />
+    </form>
+    <form action="{% url 'search' %}" method="get">
+        <div class="form-group mx-sm-3 mb-2">
+            <label for="" class="sr-only">search</label>
+            <input name="search" type="text"  id="" placeholder="Name or Article">
+        </div>
+            <button type="submit" >Search</button>
+    </form>
+    <form action={% url "logout" %} method='POST'>
+        {% csrf_token %}
+        <button>Logout</button>
+    </form>
+</div>
+<div>
+    <table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Article</th>
+        <th>Name</th>
+        <th>Miniature</th>
+        <th>Description</th>
+        <th>Country</th>
+        <th>Net Weight</th>
+        <th>Gross Weight</th>
+        <th>Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for stocks in stock %}
+    <tr>
+        <td>{{ stocks.id }}</td>
+        <td>{{ stocks.article }}</td>
+        <td>{{ stocks.name }}</td>
+        <td><img width="150" height="100" src = '{{ stocks.photo.url }}' alt=""></td>
+        <td>{{ stocks.description }}</td>
+        <td>{{ stocks.country }}</td>
+        <td>{{ stocks.net_weight }}</td>
+        <td>{{ stocks.gross_weight }}</td>
+        <td>{{ stocks.price }}</td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+</body>
+</html>

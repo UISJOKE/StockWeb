@@ -12,7 +12,7 @@ from .form import StockForm, UserRegisterForm
 
 class StockView(ListView):
     model = Stock
-    template_name = 'index.html'
+    template_name = 'red.html'
     context_object_name = 'stock'
 
     def dispatch(self, request, *args, **kwargs):
@@ -81,7 +81,7 @@ def delete(request):
         item.delete()
         return HttpResponseRedirect("/")
 
-    return render(request, 'index.html')
+    return render(request, 'red.html')
 
 def register(request):
     if request.method == 'POST':

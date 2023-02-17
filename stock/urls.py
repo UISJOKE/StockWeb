@@ -6,7 +6,7 @@ from . import views
 
 urlpatterns = [
                   path('', views.mainOfStock, name='Main-of-Stock'),
-                  path('stock', StockView.as_view(template_name='index.html'), name='stock-home'),
+                  path('stock', StockView.as_view(template_name='red.html'), name='stock-home'),
                   path('', include('django.contrib.auth.urls')),
                   path("create", views.CreateStockView.as_view(), name='create_stock'),
                   path('search', views.search, name='search'),
