@@ -1,66 +1,103 @@
 <!DOCTYPE html>
-{% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static 'css/iksweb.css' %}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <title>Main</title>
-</head>
-<body>
-<div class="topnav">
-    <form action={% url "create_stock" %} method='POST'>
-        {% csrf_token %}
-        <button>Add Item</button>
-    </form>
-    <form action="{% url 'del' %}" method="GET">
-        {% csrf_token %}
-        <input name="id" type="number"  id="" placeholder="ID">
-        <input type="submit" value="Delete Item" />
-    </form>
-    <form action="{% url 'search' %}" method="get">
-        <div class="form-group mx-sm-3 mb-2">
-            <label for="" class="sr-only">search</label>
-            <input name="search" type="text"  id="" placeholder="Name or Article">
+<html style="font-size: 16px;" lang="ru"><head>
+
+    {% load static %}
+
+    <title>Каталог</title>
+
+    <link rel="stylesheet" href="{% static '/css/nicepage.css' %}" media="screen">
+    <link rel="stylesheet" href="{% static '/css/Catalog.css' %}" media="screen">
+    <script class="u-script" type="text/javascript" src="{% static 'javascript/jquery.js' %}" defer=""></script>
+    <script class="u-script" type="text/javascript" src="{% static 'javascript/nicepage.js' %}" defer=""></script>
+    <meta name="generator" content="Nicepage 5.5.0, nicepage.com">
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+
+
+  <body class="u-body u-xl-mode" data-lang="ru"><header class="u-clearfix u-header u-header" id="sec-ed5e"><div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
+        <nav class="u-menu u-menu-one-level u-offcanvas u-menu-1">
+          <div class="menu-collapse" style="font-size: 1rem; letter-spacing: 0px;">
+            <a class="u-button-style u-custom-left-right-menu-spacing u-custom-padding-bottom u-custom-top-bottom-menu-spacing u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="#">
+              <svg class="u-svg-link" viewBox="0 0 24 24"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#menu-hamburger"></use></svg>
+              <svg class="u-svg-content" version="1.1" id="menu-hamburger" viewBox="0 0 16 16" x="0px" y="0px" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g><rect y="1" width="16" height="2"></rect><rect y="7" width="16" height="2"></rect><rect y="13" width="16" height="2"></rect>
+</g></svg>
+            </a>
+          </div>
+          <div class="u-custom-menu u-nav-container">
+            <ul class="u-nav u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="{% url 'create_stock' %}" style="padding: 10px 20px;">Добавить...</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="{% url 'logout' %}" style="padding: 10px 20px;">Выйти</a>
+</li></ul>
+          </div>
+          <div class="u-custom-menu u-nav-container-collapse">
+            <div class="u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
+              <div class="u-inner-container-layout u-sidenav-overflow">
+                <div class="u-menu-close"></div>
+                <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><li class="u-nav-item"><a class="u-button-style u-nav-link" href="{% url 'create_stock' %}">Добавить...</a>
+    </li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="{% url 'logout' %}">Выйти</a>
+    </li></ul>
+              </div>
+            </div>
+            <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
+          </div>
+        </nav>
+
+        <h5 class="u-text u-text-default u-text-1">Привет, {{ user.get_username }}.</h5>
+
+      </div></header>
+
+    <section class="u-clearfix u-section-1" id="sec-98a5">
+
+      <div class="u-clearfix u-sheet u-sheet-1">
+
+        <a href="" class="u-border-none u-btn u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-1"><span class="u-icon"><svg class="u-svg-content" viewBox="0 0 52.966 52.966" x="0px" y="0px" style="width: 1em; height: 1em;"><path d="M51.704,51.273L36.845,35.82c3.79-3.801,6.138-9.041,6.138-14.82c0-11.58-9.42-21-21-21s-21,9.42-21,21s9.42,21,21,21
+	c5.083,0,9.748-1.817,13.384-4.832l14.895,15.491c0.196,0.205,0.458,0.307,0.721,0.307c0.25,0,0.499-0.093,0.693-0.279
+	C52.074,52.304,52.086,51.671,51.704,51.273z M21.983,40c-10.477,0-19-8.523-19-19s8.523-19,19-19s19,8.523,19,19
+	S32.459,40,21.983,40z"></path></svg></span>&nbsp;Поиск</a>
+        <a href="" class="u-border-none u-btn u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-1"><span class="u-file-icon u-icon"><img src="{% static 'images/3479721.png' %}" alt=""></span>&nbsp;Удалить
+        </a>
+        <div class="u-expanded-width u-table u-table-responsive u-table-1">
+
+          <table class="u-table-entity">
+            <colgroup>
+              <col width="12.4%">
+              <col width="12.4%">
+              <col width="12.4%">
+              <col width="12.4%">
+              <col width="12.7%">
+              <col width="12.4%">
+              <col width="13.1%">
+              <col width="12.200000000000008%">
+            </colgroup>
+            <thead class="u-palette-4-base u-table-header u-table-header-1">
+              <tr style="height: 21px;">
+                <th class="u-border-1 u-border-palette-4-base u-table-cell">ID</th>
+                <th class="u-border-1 u-border-palette-4-base u-table-cell">Article</th>
+                <th class="u-border-1 u-border-palette-4-base u-table-cell">Name</th>
+                <th class="u-border-1 u-border-palette-4-base u-table-cell">Miniature</th>
+                <th class="u-border-1 u-border-palette-4-base u-table-cell">Description</th>
+                  <th class="u-border-1 u-border-palette-4-base u-table-cell">Country</th>
+                <th class="u-border-1 u-border-palette-4-base u-table-cell">Net Weght</th>
+                <th class="u-border-1 u-border-palette-4-base u-table-cell">Gross Weight</th>
+                <th class="u-border-1 u-border-palette-4-base u-table-cell">Price</th>
+              </tr>
+            </thead>
+            <tbody class="u-table-body">
+                {% for stocks in stock %}
+              <tr style="height: 75px;">
+                <td class="u-border-1 u-border-grey-30 u-table-cell">{{ stocks.id }}</td>
+                <td class="u-border-1 u-border-grey-30 u-table-cell">{{ stocks.article }}</td>
+                <td class="u-border-1 u-border-grey-30 u-table-cell">{{ stocks.name }}</td>
+                <td class="u-border-1 u-border-grey-30 u-table-cell"><img width="150" height="100" src = '{{ stocks.photo.url }}' alt=""></td>
+                <td class="u-border-1 u-border-grey-30 u-table-cell">{{ stocks.description }}</td>
+                <td class="u-border-1 u-border-grey-30 u-table-cell">{{ stocks.country }}</td>
+                <td class="u-border-1 u-border-grey-30 u-table-cell">{{ stocks.net_weight }}</td>
+                <td class="u-border-1 u-border-grey-30 u-table-cell">{{ stocks.gross_weight }}</td>
+                 <td class="u-border-1 u-border-grey-30 u-table-cell">{{ stocks.price }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
         </div>
-            <button type="submit" >Search</button>
-    </form>
-    <form action={% url "logout" %} method='POST'>
-        {% csrf_token %}
-        <button>Logout</button>
-    </form>
-</div>
-<div>
-    <table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Article</th>
-        <th>Name</th>
-        <th>Miniature</th>
-        <th>Description</th>
-        <th>Country</th>
-        <th>Net Weight</th>
-        <th>Gross Weight</th>
-        <th>Price</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for stocks in stock %}
-    <tr>
-        <td>{{ stocks.id }}</td>
-        <td>{{ stocks.article }}</td>
-        <td>{{ stocks.name }}</td>
-        <td><img width="150" height="100" src = '{{ stocks.photo.url }}' alt=""></td>
-        <td>{{ stocks.description }}</td>
-        <td>{{ stocks.country }}</td>
-        <td>{{ stocks.net_weight }}</td>
-        <td>{{ stocks.gross_weight }}</td>
-        <td>{{ stocks.price }}</td>
-    </tr>
-    {% endfor %}
-</table>
-</div>
+      </div>
+    </section>
 </body>
 </html>
