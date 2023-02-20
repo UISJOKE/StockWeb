@@ -45,16 +45,16 @@
         <button class="text-field__btn"><i class="bi bi-box-arrow-right"></i></button>
     </form>
     {% for stocks in stock %}
-    <tr  onclick="window.location.href='/search?search=' + {{ stocks.article }}; return false">
+    <tr>
         <td><input form="delform" type="checkbox" name="id" value="{{ stocks.id }}"></td>
-        <td>{{ stocks.article }} </td>
-        <td>{{ stocks.name }}</td>
-        <td><img width="150" height="100" src = '{{ stocks.photo.url }}' alt=""></td>
-        <td>{{ stocks.description }}</td>
-        <td>{{ stocks.country }}</td>
-        <td>{{ stocks.net_weight }}</td>
-        <td>{{ stocks.gross_weight }}</td>
-        <td>{{ stocks.price }}</td>
+        <td onclick="window.location.href='/search?search=' + {{ stocks.article }}; return false">{{ stocks.article }} </td>
+        <td onclick="window.location.href='/search?search=' + {{ stocks.article }}; return false">{{ stocks.name }}</td>
+        <td><a href="{{ stocks.photo.url }}"><img width="150" height="100" src = '{{ stocks.photo.url }}' alt=""></a></td>
+        <td onclick="window.location.href='/search?search=' + {{ stocks.article }}; return false">{{ stocks.description }}</td>
+        <td onclick="window.location.href='/search?search=' + {{ stocks.article }}; return false">{{ stocks.country }}</td>
+        <td onclick="window.location.href='/search?search=' + {{ stocks.article }}; return false">{{ stocks.net_weight }}</td>
+        <td onclick="window.location.href='/search?search=' + {{ stocks.article }}; return false">{{ stocks.gross_weight }}</td>
+        <td onclick="window.location.href='/search?search=' + {{ stocks.article }}; return false">{{ stocks.price }}</td>
 
     </tr>
     {% endfor %}
