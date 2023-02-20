@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Stock(models.Model):
-    id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
     article = models.CharField(max_length=20)
     name = models.CharField(max_length=150)
     photo = models.ImageField()

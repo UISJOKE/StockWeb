@@ -71,17 +71,16 @@ def search(request):
         return render(request, 'stock/search.html', {'query': query, 'results': results})
 
 def delete(request):
-    if request.method == "GET":
-        itemId = request.GET.get('id')
+    ids_list=[]
+    if request.method == 'POST':
+        items = request.POST.getlist('id')
+        print(items)
+        #Stock.objects.filter(id=items).delete()
 
-        if itemId == '':
-            itemId = 'None'
-
-        item = get_object_or_404(Stock, id=itemId)
-        item.delete()
         return HttpResponseRedirect("/")
 
     return render(request, 'red.html')
+
 
 def register(request):
     if request.method == 'POST':
