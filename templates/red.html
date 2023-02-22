@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
+<footer style="font-size: 10px; vertical-align: bottom; horiz-align: center">
+    by UISJOKE 2023
+</footer>
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{% static 'css/iksweb.css' %}">
@@ -19,16 +22,23 @@
 <div>
     <table>
     <thead>
-    <tr>
-        <th><input  type="checkbox" onclick="" name="id" value="{{ stocks.id }}"></th>
-        <th>Article</th>
-        <th>Name</th>
-        <th>Miniature</th>
-        <th>Description</th>
-        <th>Country</th>
-        <th>Net Weight</th>
-        <th>Gross Weight</th>
-        <th>Price</th>
+		<tr>
+			<th rowspan="2"><input class="chk-all" type="checkbox" onclick="" name="id" value="{{ stocks.id }}"></th>
+			<th rowspan="2">Артикул</th>
+			<th rowspan="2">Наименование</th>
+			<th rowspan="2">Фото</th>
+			<th rowspan="2">Описание</th>
+			<th rowspan="2">Страна производства</th>
+			<th rowspan="2">Масса нетто</th>
+			<th rowspan="2">Масса брутто</th>
+			<th colspan="2">Цена в BYN</th>
+			<th rowspan="2">Остаток</th>
+			<th rowspan="2"></th>
+		</tr>
+		<tr>
+			<th>Нулевая</th>
+			<th>На клиента</th>
+		</tr>
     </tr>
     </thead>
     <tbody>
@@ -36,7 +46,7 @@
         {% csrf_token %}
         <button class="text-field__btn" ><i class="bi bi-plus-circle"></i></button>
     </form>
-    <form id="delform" action="{% url 'del' %}" method="POST">
+    <form id="del" action="{% url 'checkdel' %}" method="POST">
         {% csrf_token %}
         <button class="text-field__btn" type="submit" name="delete"><i class="bi bi-trash"></i></button>
     </form>
@@ -45,24 +55,58 @@
         <button class="text-field__btn"><i class="bi bi-box-arrow-right"></i></button>
     </form>
     {% for stocks in stock %}
-    <tr>
-        <td><input form="delform" type="checkbox" name="id" value="{{ stocks.id }}"></td>
-        <td onclick="window.location.href='/search?search=' + {{ stocks.article }}; return false">{{ stocks.article }} </td>
-        <td onclick="window.location.href='/search?search=' + {{ stocks.article }}; return false">{{ stocks.name }}</td>
-        <td><a href="{{ stocks.photo.url }}"><img width="150" height="100" src = '{{ stocks.photo.url }}' alt=""></a></td>
-        <td onclick="window.location.href='/search?search=' + {{ stocks.article }}; return false">{{ stocks.description }}</td>
-        <td onclick="window.location.href='/search?search=' + {{ stocks.article }}; return false">{{ stocks.country }}</td>
-        <td onclick="window.location.href='/search?search=' + {{ stocks.article }}; return false">{{ stocks.net_weight }}</td>
-        <td onclick="window.location.href='/search?search=' + {{ stocks.article }}; return false">{{ stocks.gross_weight }}</td>
-        <td onclick="window.location.href='/search?search=' + {{ stocks.article }}; return false">{{ stocks.price }}</td>
+    <form id="edit_item" action={% url "edit_item" stocks.id%} method='GET'>
+        {% csrf_token %}
+    </form>
 
+    <tr class=class='clickable-row' data-href='{% url 'item' stocks.id %}'>
+        <td><input  form="del" type="checkbox" name="id" value="{{ stocks.id }}"></td>
+        <td onclick="window.location.href='/item/' + {{stocks.id}} ; return false">{{ stocks.article }} </td>
+        <td onclick="window.location.href='/item/' + {{stocks.id}} ; return false">{{ stocks.name }}</td>
+        <td><a href="{{ stocks.photo.url }}"><img width="35" height="35" src = '{{ stocks.photo.url }}' alt=""></a></td>
+        <td onclick="window.location.href='/item/' + {{stocks.id}} ; return false">{{ stocks.description }}</td>
+        <td onclick="window.location.href='/item/' + {{stocks.id}} ; return false">{{ stocks.country }}</td>
+        <td onclick="window.location.href='/item/' + {{stocks.id}} ; return false">{{ stocks.net_weight }}</td>
+        <td onclick="window.location.href='/item/' + {{stocks.id}} ; return false">{{ stocks.gross_weight }}</td>
+        <td onclick="window.location.href='/item/' + {{stocks.id}} ; return false">{{ stocks.price }}</td>
+        <td onclick="window.location.href='/item/' + {{stocks.id}} ; return false">{{ stocks.clien_price }}</td>
+        <td onclick="window.location.href='/item/' + {{stocks.id}} ; return false">{{ stocks.count }}</td>
+        <td class="btn-group">
+                <form class="btn-group" action={% url "edit_item" stocks.id %} method='POST'>
+                    {% csrf_token %}
+                    <button style="padding: .1rem .3rem " class="text-field__btn" ><i class="bi bi-pen"></i></button>
+                </form>
+                <form class="btn-group" action="{% url 'del' stocks.id %}" method="post">
+                    {% csrf_token %}
+                    <button style="padding: .1rem .3rem "  class="text-field__btn" type="submit" name="delete"><i class="bi bi-trash"></i></button>
+                </form>
+        </td>
     </tr>
+        <script>
+        $(document).on('change', 'input[type=checkbox]', function () {
+  var $this = $(this), $chks = $(document.getElementsByName(this.name)), $all = $chks.filter(".chk-all");
+
+  if ($this.hasClass('chk-all')) {
+    $chks.prop('checked', $this.prop('checked'));
+  } else switch ($chks.filter(":checked").length) {
+    case +$all.prop('checked'):
+      $all.prop('checked', false).prop('indeterminate', false);
+      break;
+    case $chks.length - !!$this.prop('checked'):
+      $all.prop('checked', true).prop('indeterminate', false);
+      break;
+    default:
+      $all.prop('indeterminate', true);
+  }
+});
+        </script>
+        </tbody>
     {% endfor %}
 </table>
 <form class="text-field__group" action="{% url 'search' %}" method="get">
     <div class="text-field__group">
-            <input class="text-field__input" name="search" type="text"  id="" placeholder="Имя или артикул">
-            <button class="text-field__btn" type="submit"><i class="fa fa-search"></i></button>
+            <input style="border-color: #cad6e0; border-radius: 5px" class="text-field__input" name="search" type="text"  id="" placeholder="Имя или артикул">
+            <button style="border-color: #cad6e0; border-radius: 5px" class="text-field__btn" type="submit"><i class="fa fa-search"></i></button>
     </div>
     </form>
 </div>

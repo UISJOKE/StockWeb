@@ -3,8 +3,7 @@ from django.db.models import Q
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
-from django.views.generic.list import ListView
+from django.views.generic import CreateView,DetailView,ListView,UpdateView,DeleteView
 from django.http import HttpResponseRedirect
 from .models import Stock
 from .form import StockForm, UserRegisterForm
@@ -34,6 +33,26 @@ class CreateStockView(CreateView):
 
         return super().dispatch(request, *args, **kwargs)
 
+class ItemProfile(DetailView):
+    model = Stock
+    template_name = 'stock/profile_item.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return HttpResponseRedirect('login/')
+
+        return super().dispatch(request, *args, **kwargs)
+
+class StockUpdateView(UpdateView):
+    model = Stock
+    template_name = 'stock/edit_item.html'
+    fields = ['price', 'count']
+    success_url = reverse_lazy('stock-home')
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return HttpResponseRedirect('login/')
+
+        return super().dispatch(request, *args, **kwargs)
 
 def mainOfStock(request):
     if not request.user.is_authenticated:
@@ -70,16 +89,22 @@ def search(request):
 
         return render(request, 'stock/search.html', {'query': query, 'results': results})
 
-def delete(request):
-    ids_list=[]
+
+def checkbox_delete(request):
     if request.method == 'POST':
         items = request.POST.getlist('id')
         print(items)
-        #Stock.objects.filter(id=items).delete()
+        for item in items:
+            Stock.objects.filter(id=item).delete()
 
         return HttpResponseRedirect("/")
 
     return render(request, 'red.html')
+
+class StockDeleteView(DeleteView):
+    model = Stock
+    template_name = 'red.html'
+    success_url = reverse_lazy('stock-home')
 
 
 def register(request):
