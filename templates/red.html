@@ -33,7 +33,7 @@
 			<th rowspan="2">Масса брутто</th>
 			<th colspan="2">Цена в BYN</th>
 			<th rowspan="2">Остаток</th>
-			<th rowspan="2"></th>
+			<th  rowspan="2"></th>
 		</tr>
 		<tr>
 			<th>Нулевая</th>
@@ -60,7 +60,7 @@
     </form>
 
     <tr class=class='clickable-row' data-href='{% url 'item' stocks.id %}'>
-        <td><input  form="del" type="checkbox" name="id" value="{{ stocks.id }}"></td>
+        <td style="box-shadow: 10px -2px 10px #cad6e0; border-right: hidden;--thumb-hover-color: #0000"><input  form="del" type="checkbox" name="id" value="{{ stocks.id }}"></td>
         <td onclick="window.location.href='/item/' + {{stocks.id}} ; return false">{{ stocks.article }} </td>
         <td onclick="window.location.href='/item/' + {{stocks.id}} ; return false">{{ stocks.name }}</td>
         <td><a href="{{ stocks.photo.url }}"><img width="35" height="35" src = '{{ stocks.photo.url }}' alt=""></a></td>
