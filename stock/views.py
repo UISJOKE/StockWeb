@@ -14,9 +14,22 @@ class StockView(ListView):
     template_name = 'red.html'
     context_object_name = 'stock'
 
+    def get_ordering(self):
+        ordering = self.request.GET.get('orderby')
+        if ordering == 'По убыванию цены':
+            ordering = '-price'
+        elif ordering == 'По возрастанию цены':
+            ordering = 'price'
+        elif ordering == 'От старых к новым':
+            ordering = 'id'
+        else:
+            ordering = '-id'
+        print(ordering)
+        return ordering
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
-            return HttpResponseRedirect('login/')
+            return reverse_lazy('login')
+
 
         return super().dispatch(request, *args, **kwargs)
 
@@ -26,6 +39,7 @@ class CreateStockView(CreateView):
     form_class = StockForm
     template_name = 'stock/add_in_stock.html'
     success_url = reverse_lazy('stock-home')
+
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -53,15 +67,13 @@ class StockUpdateView(UpdateView):
             return HttpResponseRedirect('login/')
 
         return super().dispatch(request, *args, **kwargs)
-
+@login_required()
 def mainOfStock(request):
-    if not request.user.is_authenticated:
-        return render(request, 'registration/login.html')
-    else:
         return redirect('stock-home')
 
 
 def book_list(request):
+    # sort_type = request.GET.get('type')
     stock = Stock.objects.all()
     stock_dict = {'stock': stock}
 
@@ -117,7 +129,7 @@ def register(request):
             return redirect('stock-home')
     else:
         form = UserRegisterForm()
-    return render(request, 'registration/register.html', {'form': form})
+    return render(request, 'registration/register.html', {'reg': form})
 
 @login_required
 def profile(request):

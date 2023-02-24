@@ -3,9 +3,18 @@
 <html lang="en">
 <footer style="font-size: 10px; vertical-align: bottom; horiz-align: center">
     by UISJOKE 2023
+
 </footer>
 <head>
+    <div style="text-align: left;">
+        <a href="{% url 'profile' %}"> Привет, {{ user.username }}</a>
+    </div>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
     <link rel="stylesheet" href="{% static 'css/iksweb.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -19,6 +28,7 @@
     </style>
 </head>
 <body>
+
 <div>
     <table>
     <thead>
@@ -103,6 +113,21 @@
         </tbody>
     {% endfor %}
 </table>
+
+<form action="{% url 'stock-home' %}" method="get" id="sortProduct">
+<div class="box sort pull-right">
+    <span>Сортировка:</span>
+    <button data-bs-display="static" aria-expanded="false" value="Сортировка" class="btn btn-secondary dropdown-toggle" type="submit" data-toggle="dropdown" id="menu2">
+     <span class="dropdown-label"></span>
+    </button>
+   <ul class="dropdown-menu dropdown-menu-lg-end" role="menu" aria-labelledby="menu2">
+       <li><input type="submit" name="orderby" value="По возрастанию цены"></li>
+      <li><input type="submit" name="orderby" value="По убыванию цены"></li>
+      <li><input type="submit" name="orderby" value="От старых к новым"></li>
+       <li><input type="submit" name="orderby" value="От новых к старым"></li>
+   </ul>
+  </div>
+</form>
 <form class="text-field__group" action="{% url 'search' %}" method="get">
     <div class="text-field__group">
             <input style="border-color: #cad6e0; border-radius: 5px" class="text-field__input" name="search" type="text"  id="" placeholder="Имя или артикул">
