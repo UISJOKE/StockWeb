@@ -56,6 +56,14 @@
         {% csrf_token %}
         <button class="text-field__btn" ><i class="bi bi-plus-circle"></i></button>
     </form>
+    <form class="btn-group" method='POST'>
+        {% csrf_token %}
+        <button  class="text-field__btn" ><i class="bi bi-plus"></i></button>
+    </form>
+    <form class="btn-group" method='POST'>
+        {% csrf_token %}
+        <button  class="text-field__btn" ><i class="bi bi-dash"></i></button>
+    </form>
     <form id="del" action="{% url 'checkdel' %}" method="POST">
         {% csrf_token %}
         <button class="text-field__btn" type="submit" name="delete"><i class="bi bi-trash"></i></button>
@@ -79,9 +87,17 @@
         <td onclick="window.location.href='/item/' + {{stocks.id}} ; return false">{{ stocks.net_weight }}</td>
         <td onclick="window.location.href='/item/' + {{stocks.id}} ; return false">{{ stocks.gross_weight }}</td>
         <td onclick="window.location.href='/item/' + {{stocks.id}} ; return false">{{ stocks.price }}</td>
-        <td onclick="window.location.href='/item/' + {{stocks.id}} ; return false">{{ stocks.clien_price }}</td>
-        <td onclick="window.location.href='/item/' + {{stocks.id}} ; return false">{{ stocks.count }}</td>
+        <td onclick="window.location.href='/item/' + {{stocks.id}} ; return false">{{ stocks.client_price }}</td>
+        <td onclick="window.location.href='/item/' + {{stocks.id}} ; return false">{{ stocks.count }} </td>
         <td class="btn-group">
+                <form class="btn-group" method='POST'>
+                    {% csrf_token %}
+                    <button style="padding: .1rem .3rem " class="text-field__btn" ><i class="bi bi-plus"></i></button>
+                </form>
+                <form class="btn-group" method='POST'>
+                    {% csrf_token %}
+                    <button style="padding: .1rem .3rem " class="text-field__btn" ><i class="bi bi-dash"></i></button>
+                </form>
                 <form class="btn-group" action={% url "edit_item" stocks.id %} method='POST'>
                     {% csrf_token %}
                     <button style="padding: .1rem .3rem " class="text-field__btn" ><i class="bi bi-pen"></i></button>
@@ -113,27 +129,31 @@
         </tbody>
     {% endfor %}
 </table>
+<div class="btn-group">
+<form class="text-field__group" action="{% url 'search' %}" method="get" style="display:flex;">
+    <div class="text-field__group">
+            <input style="border-color: #cad6e0; border-radius: 5px" class="text-field__input" name="search" type="text"  id="" placeholder="Имя или артикул">
+            <button style="border-color: #cad6e0; border-radius: 5px" class="text-field__btn" type="submit"><i class="fa fa-search"></i></button>
+    </div>
+    </form>
 
-<form action="{% url 'stock-home' %}" method="get" id="sortProduct">
-<div class="box sort pull-right">
-    <span>Сортировка:</span>
-    <button data-bs-display="static" aria-expanded="false" value="Сортировка" class="btn btn-secondary dropdown-toggle" type="submit" data-toggle="dropdown" id="menu2">
-     <span class="dropdown-label"></span>
+
+<form  action="{% url 'stock-home' %}" method="get" id="sortProduct">
+<div  class="container">
+  <div class="__select">
+    <button  data-bs-display="static" aria-expanded="false" value="Сортировка" class="btn btn-default dropdown-toggle" type="submit" data-toggle="dropdown" id="menu2">
+     <span class="caret">Сортировка</span>
     </button>
-   <ul class="dropdown-menu dropdown-menu-lg-end" role="menu" aria-labelledby="menu2">
+   <ul class="dropdown-menu" role="menu" aria-labelledby="menu2">
        <li><input type="submit" name="orderby" value="По возрастанию цены"></li>
       <li><input type="submit" name="orderby" value="По убыванию цены"></li>
       <li><input type="submit" name="orderby" value="От старых к новым"></li>
        <li><input type="submit" name="orderby" value="От новых к старым"></li>
    </ul>
   </div>
+</div>
 </form>
-<form class="text-field__group" action="{% url 'search' %}" method="get">
-    <div class="text-field__group">
-            <input style="border-color: #cad6e0; border-radius: 5px" class="text-field__input" name="search" type="text"  id="" placeholder="Имя или артикул">
-            <button style="border-color: #cad6e0; border-radius: 5px" class="text-field__btn" type="submit"><i class="fa fa-search"></i></button>
-    </div>
-    </form>
+</div>
 </div>
 </body>
 </html>

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'stock.apps.StockConfig',
     'crispy_forms',
     'crispy_bootstrap5',
+    'phone_field',
 
 ]
 

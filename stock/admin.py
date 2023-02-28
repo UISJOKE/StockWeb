@@ -1,14 +1,18 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from .models import Stock,Profile
+from .models import Stock,Profile,Provider,Buyer,WriteOff, Procurement
+    # ,Buyer,WriteOff,Provider
 
 
 admin.site.register(Profile)
-
+admin.site.register(Provider)
+admin.site.register(Buyer)
+admin.site.register(WriteOff)
+admin.site.register(Procurement)
 @admin.register(Stock)
 class StockAdmin(admin.ModelAdmin):
     list_display = ['id', 'article', 'name', 'miniature', 'description', 'country', 'net_weight',
-                    'gross_weight', 'price']
+                    'gross_weight', 'price', 'client_price', 'count']
 
     readonly_fields = ["miniature"]
 
