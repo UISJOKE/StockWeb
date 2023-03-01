@@ -3,10 +3,9 @@
 <html lang="en">
     <meta charset="UTF-8">
     <title> {{ form }}</title>
-</head>
 <body>
 {% csrf_token %}
-<head>
+
     <H1>{{ stock.name }}</H1>
     <img src = '{{ stock.photo.url }}' alt="">
     <form  action="" method="GET">

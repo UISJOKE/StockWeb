@@ -14,7 +14,7 @@
         {% csrf_token %}
         <button>Add Item</button>
     </form>
-    <form action="{% url 'del' %}" class="form-inline" method="GET">
+    <form action="{% url 'del' pk %}" class="form-inline" method="GET">
         {% csrf_token %}
         <input name="id" type="number" class="form-control" id="" placeholder="ID">
         <input type="submit" value="Delete Item" />
@@ -23,7 +23,7 @@
         {% csrf_token %}
         <button>LogOut</button>
     </form>
-    <form action="{% url 'search' %}" class="form-inline" method="get">
+    <form action="{% url 'search' %}" class="form-inline" method="GET">
         <div class="form-group mx-sm-3 mb-2">
             <label for="" class="sr-only">search</label>
             <input name="search" type="text" class="form-control" id="" placeholder="Name or Article">

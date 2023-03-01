@@ -1,6 +1,17 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import User
 from phone_field import PhoneField
+from django.contrib.auth.models import AbstractUser
+
+
+class User(AbstractUser):
+    photo = models.ImageField(default='default.png')
+    organization = models.CharField(max_length=50)
+    location = models.CharField(max_length=15)
+    phone = PhoneField()
+    birthday = models.CharField(max_length=10)
 
 
 class Provider(models.Model):
@@ -14,21 +25,25 @@ class Provider(models.Model):
 
 
 class Stock(models.Model):
-    article = models.CharField(max_length=20)
+    article = models.CharField(max_length=20, null=True, blank=True)
     name = models.CharField(max_length=150)
-    photo = models.ImageField()
-    description = models.CharField(max_length=1000)
-    country = models.CharField(max_length=50)
-    net_weight = models.FloatField()
-    gross_weight = models.FloatField()
+    photo = models.ImageField(blank=True, default='default.png')
+    description = models.CharField(max_length=1000, null=True, blank=True)
+    country = models.CharField(max_length=50, blank=True)
+    net_weight = models.FloatField(null=True, blank=True)
+    gross_weight = models.FloatField(null=True, blank=True)
     price = models.FloatField()
-    client_price = models.FloatField(default=0)
+    client_price = models.FloatField(default=0, editable=False, blank=True)
     count = models.PositiveIntegerField('Count in stock(item)', blank=True, null=True)
-    provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
+    provider = models.ForeignKey(Provider, on_delete=models.CASCADE, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.article + ' ' + self.name
+
+    def save(self, *args, **kwargs):
+        self.client_price = self.price * 1.3
+        super().save(*args, **kwargs)
 
 
 class Buyer(models.Model):
@@ -53,7 +68,7 @@ class WriteOff(models.Model):
         ('stocktaking', 'Инвентаризация')
     )
     article = models.ForeignKey(Stock, on_delete=models.CASCADE)
-    date = models.DateField()
+    date = models.DateField(default=datetime.date.today,blank=True)
     action = models.CharField(choices=ACTION_CHOICES, max_length=500)
     contact = models.ForeignKey(Buyer, on_delete=models.DO_NOTHING)
     count = models.PositiveIntegerField(null=False, blank=False, default=0)

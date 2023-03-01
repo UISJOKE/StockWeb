@@ -1,12 +1,51 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.contrib import messages
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView,DetailView,ListView,UpdateView,DeleteView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView, DeleteView
 from django.http import HttpResponseRedirect
-from .models import Stock
-from .form import StockForm, UserRegisterForm
+from .models import Stock, Procurement, WriteOff, User,Buyer, Provider
+from .form import StockForm, UserRegisterForm, WriteOffForm, ProcurementForm, BuyerForm
+
+
+class WriteOffView(CreateView):
+    model = WriteOff
+    form_class = WriteOffForm
+    template_name = 'stock/minus_item.html'
+    success_url = reverse_lazy('stock-home')
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return reverse_lazy('login')
+
+        return super().dispatch(request, *args, **kwargs)
+
+class CreateBuyerView(CreateView):
+    model = Buyer
+    form_class = BuyerForm
+    template_name = 'stock/add_buyer.html'
+    success_url = reverse_lazy('writeoff')
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return reverse_lazy('login')
+
+        return super().dispatch(request, *args, **kwargs)
+
+
+class CreateProcurementView(CreateView):
+    model = Procurement
+    form_class = ProcurementForm
+    template_name = 'stock/plus_item.html'
+    success_url = reverse_lazy('stock-home')
+
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return reverse_lazy('login')
+
+        return super().dispatch(request, *args, **kwargs)
 
 
 class StockView(ListView):
@@ -24,12 +63,13 @@ class StockView(ListView):
             ordering = 'id'
         else:
             ordering = '-id'
-        print(ordering)
         return ordering
+
+
+
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return reverse_lazy('login')
-
 
         return super().dispatch(request, *args, **kwargs)
 
@@ -41,11 +81,12 @@ class CreateStockView(CreateView):
     success_url = reverse_lazy('stock-home')
 
 
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return HttpResponseRedirect('login/')
+    # def dispatch(self, request, *args, **kwargs):
+    #     if not request.user.is_authenticated:
+    #         return reverse_lazy('login')
+    #
+    #     return super().dispatch(request, *args, **kwargs)
 
-        return super().dispatch(request, *args, **kwargs)
 
 class ItemProfile(DetailView):
     model = Stock
@@ -53,23 +94,37 @@ class ItemProfile(DetailView):
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
-            return HttpResponseRedirect('login/')
+            return reverse_lazy('login')
+
+        return super().dispatch(request, *args, **kwargs)
+
+
+class UserProfileView(DetailView):
+    model = User
+    template_name = 'registration/profile.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return reverse_lazy('login')
 
         return super().dispatch(request, *args, **kwargs)
 
 class StockUpdateView(UpdateView):
     model = Stock
     template_name = 'stock/edit_item.html'
-    fields = ['price', 'count']
+    fields = ['article', 'name', 'photo', 'description', 'net_weight', 'gross_weight', 'price']
     success_url = reverse_lazy('stock-home')
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return HttpResponseRedirect('login/')
 
-        return super().dispatch(request, *args, **kwargs)
+    # def dispatch(self, request, *args, **kwargs):
+    #     if not request.user.is_authenticated:
+    #         return reverse_lazy('login')
+    #
+    #     return super().dispatch(request, *args, **kwargs)
+
+
 @login_required()
 def mainOfStock(request):
-        return redirect('stock-home')
+    return redirect('stock-home')
 
 
 def book_list(request):
@@ -81,7 +136,6 @@ def book_list(request):
 
 
 def search(request):
-
     if request.method == "GET":
 
         query = request.GET.get('search')
@@ -97,7 +151,6 @@ def search(request):
                                        Q(description__icontains=query.casefold()) |
                                        Q(country__icontains=query.capitalize()) |
                                        Q(description__icontains=query.capitalize()))
-
 
         return render(request, 'stock/search.html', {'query': query, 'results': results})
 
@@ -130,6 +183,7 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'registration/register.html', {'reg': form})
+
 
 @login_required
 def profile(request):

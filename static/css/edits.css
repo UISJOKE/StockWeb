@@ -1,8 +1,8 @@
 table{text-decoration: none;border-collapse:collapse;width:100%;text-align:center;}
 th{font-weight:normal;font-size:14px; color: #000000;background-color: #dcdcdc;}
-td{font-size:11px;color:#354251;}
-td,th{white-space:pre-wrap;padding:10px 15px;line-height:13px;vertical-align: middle;border: 1px solid #ffffff;}  table.iksweb tr:hover{background-color: #c0c0c0}
-tr:hover td{background-color: #79aec8;color: #ffffff;cursor:pointer;}
+td{font-size:15px;color:#354251;}
+td,th{white-space:pre-wrap;padding:10px 15px;line-height:13px;vertical-align: middle;border: 0 solid transparent}  table.iksweb tr:hover{background-color: #c0c0c0}
+
 
 
 .topnav {
